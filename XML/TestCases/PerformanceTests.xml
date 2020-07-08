@@ -748,4 +748,24 @@
         <Tags>lkp</Tags>
         <Priority>3</Priority>
     </test>
+    <test>
+        <testName>PERF-XDP-TCP-LATENCY</testName>
+        <testScript>PERF-XDP-TCP-LATENCY.ps1</testScript>
+        <setupType>TwoVM2NIC</setupType>
+        <OverrideVMSize>Standard_D64_v3</OverrideVMSize>
+        <AdditionalHWConfig>
+            <Networking>SRIOV</Networking>
+        </AdditionalHWConfig>
+        <files>.\Testscripts\Linux\utils.sh,.\Testscripts\Linux\XDPDumpSetup.sh,.\Testscripts\Linux\perf_lagscope.sh</files>
+        <TestParameters>
+            <param>pingIteration=1000000</param>
+            <param>lagscopeVersion=LAGSCOPE_VERSION</param>
+            <param>repo_url=XDPDUMP_REPO_URL</param>
+        </TestParameters>
+        <Platform>Azure</Platform>
+        <Category>Performance</Category>
+        <Area>NETWORK</Area>
+        <Tags>xdp,network,hv_netvsc,sriov</Tags>
+        <Priority>1</Priority>
+    </test>
 </TestCases>

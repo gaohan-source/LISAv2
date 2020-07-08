@@ -4,7 +4,7 @@
 #
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the Apache License.
-# 
+#
 #######################################################################
 
 #######################################################################
@@ -70,6 +70,12 @@ if [ ! "${pingIteration}" ]; then
 	UpdateTestState $ICA_TESTABORTED
 	exit 1
 fi
+if [ ! "${testServerIP}" ];then
+	LogMsg "testServerIP not defined. Using server ip: ${server} for testing"
+	testServerIP=$server
+else
+	LogMsg "testServerIP is ${testServerIP}. Lagscope sender and receiver will use this ip"
+fi
 
 #Make & build lagscope on client and server VMs
 
@@ -101,9 +107,10 @@ fi
 
 LogMsg "Now running Lagscope test"
 LogMsg "Starting server."
-ssh root@"${server}" "${cmd} -r" &
-sleep 20
+ssh root@"${server}" "timeout 230 ${cmd} -r${testServerIP}" &
+sleep 10
 LogMsg "lagscope client running..."
-ssh root@"${client}" "${cmd} -s${server} -i0 -n${pingIteration} -H > lagscope-n${pingIteration}-output.txt"
+ssh root@"${client}" "timeout 220 ${cmd} -s${testServerIP} -i0 -n${pingIteration} -H -P -a40 -l1 -c98> lagscope-n${pingIteration}-output.txt"
+sleep 220
 LogMsg "Test finished."
 UpdateTestState $ICA_TESTCOMPLETED

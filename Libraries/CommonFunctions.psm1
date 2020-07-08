@@ -2400,3 +2400,31 @@ Function ExtractSSHPublicKeyFromPPKFile {
             return $null
         }
 }
+
+function Is-XDPCompatible() {
+    param (
+        [string] $KernelVersion,
+        [string] $DetectedDistro
+    )
+    $MIN_KERNEL_VERSION = "5.6"
+    $RHEL_MIN_KERNEL_VERSION = "4.18.0-213"
+    Write-LogInfo "$KernelVersion $DetectedDistro"
+    # ToDo: Update Minimum kernel version check once patches are in downstream distro.
+    if ($DetectedDistro -eq "UBUNTU"){
+        if ((Compare-KernelVersion $KernelVersion $MIN_KERNEL_VERSION) -lt 0){
+            Write-LogInfo "Minimum kernel version required for XDP: $MIN_KERNEL_VERSION."`
+                "Unsupported kernel version: $KernelVersion"
+            return $false
+        }
+    } elseif ($DetectedDistro -eq "REDHAT"){
+        if ((Compare-KernelVersion $KernelVersion $RHEL_MIN_KERNEL_VERSION) -lt 0){
+            Write-LogInfo "RHEL Minimum kernel version required for XDP: $RHEL_MIN_KERNEL_VERSION."`
+                "Unsupported kernel version: $KernelVersion"
+            return $false
+        }
+    } else {
+        Write-LogInfo "Unsupported distro: $DetectedDistro."
+        return $false
+    }
+    return $true
+}
