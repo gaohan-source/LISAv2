@@ -105,12 +105,14 @@ chmod +x nginx-config.sh ;
 #run the test
 Timeout ;
 cd $SCRIPTPATH;
-RESULT1=`tail -1  $SCRIPTPATH/nginx-test.log | grep "PASS" | wc -l`
-if (( !$RESULT1 ))
+RESULT1=`tail -1  $SCRIPTPATH/nginx-test.log | grep "FAIL" | wc -l`
+if (( $RESULT1 ))
 then
-        echo -e "Nginx Official Test RESULT:PASS"
-else
         echo -e "Nginx Official Test RESULT:FAIL"
+else
+        echo -e "Nginx Official Test RESULT:PASS"
 fi
 
+collect_VM_properties
+SetTestStateCompleted
 exit 0;
