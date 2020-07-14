@@ -76,7 +76,6 @@ Timeout()
     commandpid=$!
 
     ( sleep $waitfor ; kill -9 $commandpid  > /dev/null 2>&1 ) &
-    watchdog=$!
     sleeppid=$PPID
 
     wait $commandpid > /dev/null 2>&1
@@ -86,7 +85,7 @@ Timeout()
 
 #pre-set the env
 SCRIPT=$(readlink -f "$0")
-SCRIPTPATH=`dirname "$SCRIPT"`
+SCRIPTPATH=$(dirname "$SCRIPT")
 
 cd /home/lisa/;
 rm -Rf nginx
@@ -105,7 +104,7 @@ chmod +x nginx-config.sh ;
 #run the test
 Timeout ;
 cd $SCRIPTPATH;
-RESULT1=`tail -1  $SCRIPTPATH/nginx-test.log | grep "FAIL" | wc -l`
+RESULT1=$(tail -1  $SCRIPTPATH/nginx-test.log | grep "FAIL" | wc -l)
 if (( $RESULT1 ))
 then
         echo -e "Nginx Official Test RESULT:FAIL"

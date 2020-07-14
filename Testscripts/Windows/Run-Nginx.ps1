@@ -8,8 +8,6 @@ param(
     [object] $TestParams
 )
 
-$TEST_SCRIPT = "nginx-community-tests.sh"
-
 function Main {
     param (
         [object] $AllVmData,
