@@ -26,7 +26,7 @@
     echo "TestAborted" > state.txt
     exit 0
 }
-HOMEDIR=$(pwd)
+
 # Source constants file and initialize most common variables
 UtilsInit
 
