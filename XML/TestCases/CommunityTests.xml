@@ -104,12 +104,7 @@
     </test>
     <test>
         <TestName>NGINX-COMMUNITY-TESTS</TestName>
-        <TestScript>Run-Nginx.ps1</TestScript>
-        <files>.\Testscripts\Linux\utils.sh,.\TestScripts\Linux\nginx-community-tests.sh,.\TestScripts\Linux\get_data_disk_dev_name.sh</files>
-        <setupScript>.\TestScripts\Windows\AddVhdxHardDisk.ps1</setupScript>
-        <cleanupScript>.\TestScripts\Windows\RemoveVhdxHardDisk.ps1</cleanupScript>
-        <setupType>OneVM1Disk5G</setupType>
-        <OverrideVMSize>Standard_DS14_v2</OverrideVMSize>
+        <files>.\Testscripts\Linux\utils.sh,.\TestScripts\Linux\nginx-community-tests.sh</files>
         <TestParameters>
         </TestParameters>
         <Timeout>20000</Timeout>
