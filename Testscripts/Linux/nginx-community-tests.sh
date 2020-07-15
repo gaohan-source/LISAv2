@@ -52,7 +52,8 @@ esac
 Timeout()
 {
     waitfor=3600
-    TEST_NGINX_BINARY=/home/lisa/nginx prove . >$SCRIPTPATH/nginx-test.log &
+    touch nginx-test.log
+    TEST_NGINX_BINARY=$execute_path/nginx prove . >$SCRIPTPATH/nginx-test.log &
     commandpid=$!
 
     ( sleep $waitfor ; kill -9 $commandpid  > /dev/null 2>&1 ) &
@@ -68,6 +69,7 @@ SCRIPT=$(readlink -f "$0")
 SCRIPTPATH=$(dirname "$SCRIPT")
 nginx_git_url="https://github.com/nginx/nginx.git"
 nginxtest_git_url="https://github.com/nginx/nginx-tests.git"
+execute_path="/home/lisa"
 
 cd /home/lisa/;
 rm -Rf nginx
@@ -95,6 +97,7 @@ cd $SCRIPTPATH;
 Timeout ;
 cd $SCRIPTPATH;
 Result1=$(tail -1  $SCRIPTPATH/nginx-test.log | grep "FAIL" | wc -l)
+rm -Rf nginx-test.log
 if (( $Result1 ))
 then
         echo -e "Nginx Official Test RESULT:FAIL"
