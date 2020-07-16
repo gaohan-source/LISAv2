@@ -49,21 +49,6 @@ case $DISTRO in
         ;;
 esac
 
-Timeout()
-{
-    waitfor=3600
-    touch nginx-test.log
-    TEST_NGINX_BINARY=$execute_path/nginx prove . >$SCRIPTPATH/nginx-test.log &
-    commandpid=$!
-
-    ( sleep $waitfor ; kill -9 $commandpid  > /dev/null 2>&1 ) &
-    sleeppid=$PPID
-
-    wait $commandpid > /dev/null 2>&1
-    kill $sleeppid > /dev/null 2>&1
-    return 0
-}
-
 #pre-set the env
 SCRIPT=$(readlink -f "$0")
 SCRIPTPATH=$(dirname "$SCRIPT")
@@ -94,7 +79,10 @@ cd $SCRIPTPATH;
 --without-http_memcached_module
 
 #run the test
-Timeout ;
+
+touch nginx-test.log
+TEST_NGINX_BINARY=$execute_path/nginx prove . >$SCRIPTPATH/nginx-test.log &
+
 cd $SCRIPTPATH;
 Result1=$(tail -1  $SCRIPTPATH/nginx-test.log | grep "FAIL" | wc -l)
 rm -Rf nginx-test.log
