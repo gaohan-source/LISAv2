@@ -60,8 +60,8 @@ cd /home/lisa/;
 rm -Rf nginx
 rm -Rf nginx-tests
 
-git clone --depth 1 nginx_git_url
-git clone --depth 1 nginxtest_git_url
+git clone --depth 1 $nginx_git_url
+git clone --depth 1 $nginxtest_git_url
 
 # compile and install the nginx via the config.test
 cd $SCRIPTPATH;
